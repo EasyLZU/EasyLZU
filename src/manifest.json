@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "EasyLZU(Alpha)",
+  "version": "0.1.0",
+  "description": "适用于兰州大学校园网的功能增强扩展(Alpha)",
+  "content_scripts": [{
+    "matches": ["http://10.10.0.166/srun_portal_success*"],
+    "js": [
+      "success_addon.js"
+    ]
+  }, {
+    "matches": ["http://login.lzu.edu.cn/srun_portal_success*"],
+    "js": [
+      "success_addon.js"
+    ]
+  }],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "http://10.10.0.166/*",
+    "http://login.lzu.edu.cn/*"
+  ]
+}
