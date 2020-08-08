@@ -1,3 +1,5 @@
+const browser = require("webextension-polyfill/dist/browser-polyfill")
+
 export async function get_user_info() {
     const response = await fetch('http://10.10.0.166/cgi-bin/rad_user_info?callback=' + get_callback_name())
     const jsonp = await response.text()

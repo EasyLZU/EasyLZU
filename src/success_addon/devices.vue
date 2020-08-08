@@ -38,7 +38,7 @@ export default {
       try {
         const user_data = await get_user_info()
         const self_data = await get_self_info(user_data.user_name)
-        console.table(self_data)
+        console.table(self_data["device"])
         return self_data["device"]
       } catch (e) {
         console.error(e)

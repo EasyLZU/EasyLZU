@@ -1,3 +1,5 @@
+const browser = require("webextension-polyfill/dist/browser-polyfill")
+
 browser.runtime.onConnect.addListener((p) => {
     if (p.name == 'rpc') {
         p.onMessage.addListener(function (req) {

@@ -21,5 +21,8 @@ module.exports = {
     ],
     "rules": {
         semi: ["warn", "never"]
+    },
+    "globals": {
+        "layer": true
     }
-};
+}

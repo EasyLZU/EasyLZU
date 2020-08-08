@@ -14,7 +14,8 @@
     "@babel/polyfill": "^7.10.4",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
-    "vue-async-computed": "^3.8.2"
+    "vue-async-computed": "^3.8.2",
+    "webextension-polyfill": "^0.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.10.5",

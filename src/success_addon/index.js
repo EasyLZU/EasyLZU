@@ -4,6 +4,7 @@ import AsyncComputed from 'vue-async-computed'
 import Devices from "./devices.vue"
 import Liuliang from "./liuliang.vue"
 
+
 const devices = document.createElement('div')
 devices.id = 'mapl-devices'
 document.body.appendChild(devices)
@@ -19,7 +20,7 @@ setTimeout(()=>{
 Vue.use(AsyncComputed)
 new Vue({
     render: h => h(Devices)
-}).$mount('#mapl-devices');
+}).$mount('#mapl-devices')
 new Vue({
     render: h => h(Liuliang)
-}).$mount('#mapl-liuliang');
+}).$mount('#mapl-liuliang')

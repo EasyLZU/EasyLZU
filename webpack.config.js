@@ -7,7 +7,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin.js')
 
 module.exports = [{
     mode: "development",
-    watch: true,
     watchOptions: {
         poll: 1000,
         aggregateTimeout: 500,

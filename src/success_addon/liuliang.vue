@@ -17,13 +17,16 @@
         <td>{{item.name}}</td>
         <td>{{item.purchase_date}}</td>
         <!-- TODO:流量展示组件 -->
-        <td>{{item.remain}}</td>
+        <td>
+          <liuliang-display :remain="item.remain" :percentage="item.percentage"></liuliang-display>
+        </td>
       </tr>
     </table>
   </div>
 </template>
 
 <script>
+import LiuliangDisplay from "./liuliang-display.vue"
 import { get_user_info, get_self_info } from "Util/rpc/rpc-client.js"
 export default {
   data() {
@@ -38,7 +41,7 @@ export default {
       try {
         const user_data = await get_user_info()
         const self_data = await get_self_info(user_data.user_name)
-        console.table(self_data)
+        console.table(self_data["liuliang"])
         return self_data["liuliang"]
       } catch (e) {
         console.error(e)
@@ -54,6 +57,9 @@ export default {
       this.left = 70
       this.top = 60
     }, 100)
+  },
+  components: {
+    LiuliangDisplay,
   },
 }
 </script>
