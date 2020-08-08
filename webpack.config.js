@@ -3,10 +3,16 @@ const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin.js')
 
 module.exports = [{
     mode: "development",
+    watch: true,
+    watchOptions: {
+        poll: 1000,
+        aggregateTimeout: 500,
+        ignored: /node_modules/
+    },
     entry: {
         background: "./src/background/index.js",
         success_addon: "./src/success_addon/index.js"
@@ -33,14 +39,25 @@ module.exports = [{
                 test: /\.css$/,
                 use: [
                     'vue-style-loader',
-                    'css-loader'
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    }
                 ]
             },
             {
                 test: /\.sass$/,
                 use: [
                     'vue-style-loader',
-                    'css-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                            importLoaders: 1
+                        }
+                    },
                     {
                         loader: 'sass-loader',
                         options: {
@@ -56,7 +73,13 @@ module.exports = [{
                 test: /\.scss$/,
                 use: [
                     'vue-style-loader',
-                    'css-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                            importLoaders: 1
+                        }
+                    },
                     {
                         loader: 'sass-loader',
                         options: {
@@ -86,6 +109,6 @@ module.exports = [{
                 from: 'src/manifest.json'
             }]
         }),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
     ]
 }]
