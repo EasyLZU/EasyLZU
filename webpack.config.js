@@ -9,7 +9,7 @@ module.exports = [{
     mode: "development",
     watchOptions: {
         poll: 1000,
-        aggregateTimeout: 500,
+        aggregateTimeout: 1000,
         ignored: /node_modules/
     },
     entry: {

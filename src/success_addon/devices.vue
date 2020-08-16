@@ -7,44 +7,71 @@
     <div class="header">
       <h3>在线设备</h3>
     </div>
-    <table class="mapl-devices-table">
-      <tr>
-        <th>IP</th>
-        <th>MAC</th>
-        <th class="mapl-devices-option"></th>
-      </tr>
-      <tr v-for="item of device" :key="item.mac">
-        <td>{{ item.ip }}</td>
-        <td>{{ item.mac }}</td>
-        <!-- TODO:下线按钮组件 -->
-        <td>在线</td>
-      </tr>
-    </table>
+    <transition name="mapl-loadinfo-trans">
+      <div
+        v-if="!isInited"
+        key="tip"
+        class="mapl-devices-tip"
+        :class="{ 'mapl-tranan-tip': isOverTime }"
+      >
+        <p>拉取信息中...</p>
+      </div>
+      <div
+        v-else
+        key="info"
+        class="mapl-devices-info"
+        :class="{ 'mapl-tranan-device': isOverTime }"
+      >
+        <table class="mapl-devices-table">
+          <tr>
+            <th>IP</th>
+            <th>MAC</th>
+            <th class="mapl-devices-option"></th>
+          </tr>
+          <tr v-for="item of device" :key="item.mac">
+            <td>{{ item.ip }}</td>
+            <td>{{ item.mac }}</td>
+            <!-- TODO:下线按钮组件 -->
+            <td>
+              <devices-option :mac="item.mac"></devices-option>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import { get_user_info, get_self_info } from "Util/rpc/rpc-client.js"
+import DevicesOption from "./devices-option.vue"
 export default {
   data() {
     return {
       isActive: false,
       top: 50,
       left: 50,
+      isOverTime: false //超时未加载完成 TODO:分离成两个
     }
   },
-  asyncComputed: {
-    async device() {
+  computed: {
+    isInited() {
+      return (
+        this.$store.state.isUserInfoInited && this.$store.state.isSelfInfoInited
+      )
+    },
+    user() {
+      return this.$store.state.user_info
+    },
+    device() {
       try {
-        const user_data = await get_user_info()
-        const self_data = await get_self_info(user_data.user_name)
-        console.table(self_data["device"])
-        return self_data["device"]
+        return this.$store.state.self_info["device"]
       } catch (e) {
         console.error(e)
+        return []
       }
     },
   },
+  asyncComputed: {},
   methods: {},
   created: function () {
     setTimeout(() => {
@@ -54,6 +81,12 @@ export default {
       this.left = 70
       this.top = 27
     }, 100)
+    setTimeout(() => {
+      this.isOverTime = !this.isInited
+    }, 1200)
+  },
+  components: {
+    DevicesOption,
   },
 }
 </script>
@@ -85,5 +118,23 @@ export default {
 .mapl-login-panel.active {
   opacity: 1;
   transform: translate(-50%, -50%) rotateY(0deg) scale(1);
+}
+.mapl-loadinfo-trans-enter,
+.mapl-loadinfo-trans-leave-to {
+  max-height: 0;
+}
+.mapl-tranan-tip {
+  transition: max-height 0.2s ease-in;
+}
+.mapl-tranan-device {
+  transition: max-height 0.8s linear;
+}
+.mapl-devices-info {
+  max-height: 200px;
+  overflow: hidden;
+}
+.mapl-devices-tip {
+  max-height: 25px;
+  overflow: hidden;
 }
 </style>

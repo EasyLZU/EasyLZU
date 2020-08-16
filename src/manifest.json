@@ -1,12 +1,17 @@
 {
   "manifest_version": 2,
   "name": "EasyLZU(Alpha)",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "MaPl",
   "description": "适用于兰州大学校园网的功能增强扩展(Alpha)",
   "homepage_url": "https://easylzu.york.moe/",
   "content_scripts": [{
     "matches": ["http://10.10.0.166/srun_portal_success*"],
+    "js": [
+      "success_addon.js"
+    ]
+  }, {
+    "matches": ["http://10.10.0.166/srun_portal_pc*"],
     "js": [
       "success_addon.js"
     ]
@@ -25,6 +30,9 @@
     "http://10.10.0.166/*",
     "http://login.lzu.edu.cn/*"
   ],
+  "omnibox": {
+    "keyword": "lzu"
+  },
   "applications": {
     "gecko": {
       "id": "mapl@york.moe",
