@@ -74,12 +74,12 @@ export default {
       console.log(this.$store.state.setting.successAddon.userDeviceNote, userNote)
       if(this.deviceMac == this.mac) {
         if(userNote) {
-          return `${userNote}`
+          return `${userNote}(本机)`
         }
         return '本机'
       } else {
         if(userNote) {
-          return `${userNote}(在线)`
+          return `${userNote}`
         }
         return '在线'
       }
@@ -88,7 +88,6 @@ export default {
   directives: {
     focus: {
       inserted: function (el) {
-        // 聚焦元素
         el.focus()
       },
     },
