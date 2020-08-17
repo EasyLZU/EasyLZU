@@ -24,11 +24,9 @@ function parse_self_info(str) {
         '<td data-col-seq="5">([^<]+)</td><td class="[^"]+" style="[^"]+" data-col-seq="7">' +
         '<a class="[^"]+" href="[^;]+;user_mac=((?:[a-zA-Z0-9]{2}(?:%3A)?){6})" title="下线"'
     const regx1 = new RegExp(regxs1, 'g')
-    const regxs2 = '<tr data-key="[^"]+"><td data-col-seq="1">([^<]+)</td>' +
-        '<td data-col-seq="2">([^<]+)</td><td data-col-seq="5">' +
-        '<button (?:[^>]+)>总流量：([^<]+)</button>' +
-        '<button type="button" class="btn btn-xs btn-success" style="margin-right: 5px;">可用流量：([^<]+)</button>' +
-        '<button type="button" class="btn btn-xs btn-success">([^<]+)</button></td></tr>'
+    const regxs2 = '<tr(?:[^>]+)><td(?:[^>]+)>([^<]+)</td><td(?:[^>]+)>([^<]+)</td><td(?:[^>]+)>' +
+        '<button(?:[^>]+)>总流量：([^<]+)</button><button(?:[^>]+)>可用流量：([^<]+)</button>' +
+        '<button(?:[^>]+)>([^<]+)</button></td></tr>'
     const regx2 = new RegExp(regxs2, 'g')
     console.log(str.matchAll(regx2))
     return {

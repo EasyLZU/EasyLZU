@@ -22,7 +22,7 @@ setTimeout(() => {
 
 Vue.use(Vuex)
 Vue.use(AsyncComputed)
-
+//TODO: 实现Vuex广播同步机制
 const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
     state: {
@@ -56,6 +56,7 @@ const store = new Vuex.Store({
       },
       async get_self_info({commit, state}) {
         const self_info = await get_self_info(state.user_info.user_name)
+        console.log('test', self_info)
         commit('self_info_update', self_info)
       }
     }
