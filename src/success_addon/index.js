@@ -6,8 +6,12 @@ import Devices from "./devices.vue"
 import Liuliang from "./liuliang.vue"
 
 import { get_user_info, get_self_info } from "Util/rpc/rpc-client.js"
+import {
+  RPCSyncClient
+} from "Util/rpc/rpc-base.js"
 
-
+const rsc = new RPCSyncClient()
+rsc.commitSync({}).then()
 const devices = document.createElement('div')
 devices.id = 'mapl-devices'
 document.body.appendChild(devices)
