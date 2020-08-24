@@ -1,17 +1,13 @@
+// const browser = require("webextension-polyfill/dist/browser-polyfill")
 import Vue from "vue"
 import Vuex from "vuex"
 import AsyncComputed from 'vue-async-computed'
 
 import Devices from "./devices.vue"
 import Liuliang from "./liuliang.vue"
+import {RPCSyncClient} from "Util/store/rpc-sync.js"
+import settings from "Util/store/vuex-module/settings.js"
 
-import { get_user_info, get_self_info } from "Util/rpc/rpc-client.js"
-import {
-  RPCSyncClient
-} from "Util/rpc/rpc-base.js"
-
-const rsc = new RPCSyncClient()
-rsc.commitSync({}).then()
 const devices = document.createElement('div')
 devices.id = 'mapl-devices'
 document.body.appendChild(devices)
@@ -29,6 +25,10 @@ Vue.use(AsyncComputed)
 //TODO: 实现Vuex广播同步机制
 const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
+    plugins: [RPCSyncClient({
+      storeName: 'rpc',
+      storeModule: settings
+    })],
     state: {
       isUserInfoInited: false,
       isSelfInfoInited: false,
@@ -55,12 +55,14 @@ const store = new Vuex.Store({
     },
     actions: {
       async get_user_info({commit}) {
-        const user_info = await get_user_info()
+        // const user_info = await get_user_info()
+        const user_info = {}
         commit('user_info_update', user_info)
       },
       async get_self_info({commit, state}) {
-        const self_info = await get_self_info(state.user_info.user_name)
-        console.log('test', self_info)
+        // const self_info = await get_self_info(state.user_info.user_name)
+        const self_info = {username: state.user_info.user_name}
+        // console.log('test', self_info)
         commit('self_info_update', self_info)
       }
     }
@@ -76,3 +78,8 @@ new Vue({
     render: h => h(Liuliang),
     store
 }).$mount('#mapl-liuliang')
+setInterval(()=>{
+  store.dispatch('rpc/RPCTest').then().catch((e)=>{
+    console.error(JSON.stringify(e))
+  })
+}, 1)

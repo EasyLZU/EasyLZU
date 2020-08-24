@@ -3,7 +3,7 @@ export default {
     namespaced: true,
     state: () => {
         return {
-            test: '',
+            test: 0,
             test2: '',
             setting1: 1,
             setting2: ''
@@ -13,10 +13,16 @@ export default {
         test(state) {
             state.test += 'test|'
         },
-        SetSetting(state, data) {
+        SetSetting(state) {
+            const data = {test: state.test+1}
             for(const k in data){
                 Vue.set(state, k, data[k])
             }
+        }
+    },
+    actions: { //不应访问state
+        async RPCTest({commit}) {
+            commit('SetSetting')
         }
     }
 }

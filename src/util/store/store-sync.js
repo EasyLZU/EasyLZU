@@ -11,14 +11,6 @@ export default function StoreSync(option) {
             Vue.set(state, k, data[k])
         }
     }
-    if(!option.storeModule.actions) {
-        option.storeModule['actions'] = {}
-    }
-    option.storeModule.actions['_StoreSync_Init'] = async ({
-        commit
-    }, data) => {
-        commit(`${option.storeName}/_StoreSync_Init`, data)
-    }
     return function (store) {
         store.registerModule(option.storeName, option.storeModule)
         const storedState = {}
