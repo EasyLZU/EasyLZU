@@ -18,6 +18,22 @@ export default {
             for(const k in data){
                 Vue.set(state, k, data[k])
             }
+        },
+        _RPCSync_Init(state, data) {
+            for (const k in data) {
+                if(data[k]==null) {
+                    continue
+                }
+                Vue.set(state, k, data[k])
+            }
+        },
+        _StoreSync_Init(state, data) {
+            for (const k in data) {
+                if(data[k]==null) {
+                    continue
+                }
+                Vue.set(state, k, data[k])
+            }
         }
     },
     actions: { //不应访问state

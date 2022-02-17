@@ -2,7 +2,7 @@
   <div
     class="mapl-login-panel"
     :class="{ active: isActive }"
-    :style="{top: top+'%', left: left+'%'}"
+    :style="{ top: top + '%', left: left + '%' }"
   >
     <div class="header">
       <h3>已购流量包</h3>
@@ -29,11 +29,14 @@
             <th>统计</th>
           </tr>
           <tr v-for="(item, index) of liuliang" :key="index">
-            <td>{{item.name}}</td>
-            <td>{{item.purchase_date}}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.purchase_date }}</td>
             <!-- TODO:流量展示组件 -->
             <td>
-              <liuliang-display :remain="item.remain" :percentage="item.percentage"></liuliang-display>
+              <liuliang-display
+                :remain="item.remain"
+                :percentage="item.percentage"
+              ></liuliang-display>
             </td>
           </tr>
         </table>
@@ -43,28 +46,28 @@
 </template>
 
 <script>
-import LiuliangDisplay from "./liuliang-display.vue"
+import LiuliangDisplay from "./liuliang-display.vue";
 export default {
   data() {
     return {
       isActive: false,
       top: 50,
       left: 50,
-      isOverTime: false
-    }
+      isOverTime: false,
+    };
   },
   computed: {
     isInited() {
       return (
         this.$store.state.isUserInfoInited && this.$store.state.isSelfInfoInited
-      )
+      );
     },
     liuliang() {
       try {
-        return this.$store.state.self_info["liuliang"]
+        return this.$store.state.self_info["liuliang"];
       } catch (e) {
-        console.error(e)
-        return []
+        console.error(e);
+        return [];
       }
     },
   },
@@ -72,20 +75,20 @@ export default {
   methods: {},
   created: function () {
     setTimeout(() => {
-      this.isActive = true
-    }, 50)
+      this.isActive = true;
+    }, 50);
     setTimeout(() => {
-      this.left = 70
-      this.top = 60
-    }, 100)
+      this.left = 70;
+      this.top = 60;
+    }, 100);
     setTimeout(() => {
-      this.isOverTime = !this.isInited
-    }, 1200)
+      this.isOverTime = !this.isInited;
+    }, 1200);
   },
   components: {
     LiuliangDisplay,
   },
-}
+};
 </script>
 
 <style lang="scss">

@@ -1,18 +1,10 @@
-import Vue from "vue"
 export default function StoreSync(option) {
-    if (!option || !option.storeModule || !option.storeName || !option.storeType) {
+    if (!option || !option.storeName || !option.storeType) {
         throw 'bad option'
     }
-    option.storeModule.mutations['_StoreSync_Init'] = (state, data) => {
-        for (const k in data) {
-            if(data[k]==null) {
-                continue
-            }
-            Vue.set(state, k, data[k])
-        }
-    }
     return function (store) {
-        store.registerModule(option.storeName, option.storeModule)
+        console.log(store)
+        // store.registerModule(option.storeName, option.storeModule)
         const storedState = {}
         for (const k in store.state[option.storeName]) {
             storedState[k] = JSON.parse(localStorage.getItem(k))

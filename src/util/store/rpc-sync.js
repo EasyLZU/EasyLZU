@@ -1,5 +1,4 @@
 const browser = require("webextension-polyfill/dist/browser-polyfill")
-import Vue from "vue"
 import {
     RPCServer, RPCClient
 } from "Util/rpc/rpc-base.js"
@@ -22,7 +21,7 @@ export function RPCSync(option) {
         rpcServer.on('EMIT', async(parm)=>{
             return await store.dispatch(`${option.storeName}/${parm.actionName}`, parm.parms)
         })
-        store.registerModule(option.storeName, option.storeModule)
+        // store.registerModule(option.storeName, option.storeModule)
         store.subscribe((mutation, state) => {
             if (!mutation.type.startsWith(`${option.storeName}/`)) {
                 return
@@ -36,33 +35,30 @@ export function RPCSync(option) {
     }
 }
 export function RPCSyncClient(option) {
-    if (!option || !option.storeModule || !option.storeName) {
+    if (!option || !option.storeName) {
         throw 'bad option'
     }
-    option.storeModule.mutations = {
-        _RPCSync_Init(state, data) {
-            for (const k in data) {
-                if(data[k]==null) {
-                    continue
-                }
-                Vue.set(state, k, data[k])
-            }
-        }
-    }
     return function (store) {
+        console.log(store)
+        // store.hotUpdate({
+        //     mutations: {},
+        //     actions: {
+
+        //     }
+        // })
         const port = browser.runtime.connect({name:"test"})
         const rpcServer = new RPCServer(port)
         const rpcClient = new RPCClient(port)
-        for(const action in option.storeModule.actions) {
+        for(const action in store[option.storeName].actions) {
             console.log('包装action')
-            option.storeModule.actions[action] = async(store, parms)=>{
+            store[option.storeName].actions[action] = async(store, parms)=>{
                 return await rpcClient.call('EMIT', {
                     actionName: action,
                     parms
                 })
             }
         }
-        store.registerModule(option.storeName, option.storeModule)
+        // store.registerModule(option.storeName, option.storeModule)
         rpcServer.listen()
         rpcServer.on('UPDATE', async (data)=>{
             store.commit(`${option.storeName}/_RPCSync_Init`, data.state)
