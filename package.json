@@ -5,8 +5,7 @@
   "private": true,
   "scripts": {
     "build": "webpack && web-ext build --source-dir ./dist/ --artifacts-dir ./release --overwrite-dest",
-    "test:firefox": "webpack && web-ext run --source-dir ./dist/",
-    "debug:firefox": "start /b webpack --watch && start /b web-ext run --source-dir ./dist/ && vue-devtools"
+    "test": "webpack && web-ext run --source-dir ./dist/"
   },
   "author": "MaPl",
   "license": "GPL-3.0-or-later",
@@ -23,7 +22,6 @@
     "@babel/core": "^7.11.1",
     "@babel/preset-env": "^7.11.0",
     "@vue/babel-preset-app": "^4.4.6",
-    "@vue/devtools": "^5.3.3",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.3",
