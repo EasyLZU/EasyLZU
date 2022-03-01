@@ -30,9 +30,16 @@ function parse_self_info(str) {
         '<td data-col-seq="5">([^<]+)</td><td class="[^"]+" style="[^"]+" data-col-seq="7">' +
         '<a class="[^"]+" href="[^;]+;user_mac=((?:[a-zA-Z0-9]{2}(?:%3A)?){6})" title="下线"'
     const regx1 = new RegExp(regxs1, 'g')
-    const regxs2 = '<tr(?:[^>]+)><td(?:[^>]+)>([^<]+)</td><td(?:[^>]+)>([^<]+)</td><td(?:[^>]+)>' +
-        '<button(?:[^>]+)>总流量：([^<]+)</button><button(?:[^>]+)>可用流量：([^<]+)</button>' +
-        '<button(?:[^>]+)>([^<]+)</button></td></tr>'
+    const regxs2 = '<tr(?:[^>]+)>' +
+        '<td(?:[^>]+)>([^<]+)</td>' + // 套餐ID
+        '<td(?:[^>]+)>([^<]+)</td>' + // 套餐名称
+        '<td(?:[^>]+)>([^<]+)</td>' + // 购买时间
+        '<td(?:[^>]+)>([^<]+)</td>' + // 有效期
+        '<td(?:[^>]+)>([^<]+)</td>' + // 过期时间
+        '<td(?:[^>]+)>' +
+        '<button(?:[^>]+)>总流量：([^<]+)</button>' + // 总流量
+        '<button(?:[^>]+)>可用流量：([^<]+)</button>' + // 可用流量
+        '<button(?:[^>]+)>([^<]+)</button></td></tr>' // 百分比
     const regx2 = new RegExp(regxs2, 'g')
     console.log(str.matchAll(regx2))
     return {
@@ -46,11 +53,12 @@ function parse_self_info(str) {
         }),
         liuliang: [...str.matchAll(regx2)].map((e) => {
             return {
-                name: e[1],
-                purchase_date: e[2],
-                total: e[3],
-                remain: e[4],
-                percentage: e[5]
+                name: e[2],
+                purchase_date: e[3],
+                expiration_date: e[5],
+                total: e[6],
+                remain: e[7],
+                percentage: e[8]
             }
         }),
         csrf: {
