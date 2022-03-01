@@ -28,8 +28,7 @@
   },
   "permissions": [
     "http://10.10.0.166/*",
-    "http://login.lzu.edu.cn/*",
-    "storage"
+    "http://login.lzu.edu.cn/*"
   ],
   "omnibox": {
     "keyword": "lzu"

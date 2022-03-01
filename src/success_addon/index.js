@@ -6,12 +6,7 @@ import Devices from "./devices.vue"
 import Liuliang from "./liuliang.vue"
 
 import { get_user_info, get_self_info } from "util/rpc/rpc-client.js"
-import {
-  RPCSyncClient
-} from "util/rpc/rpc-base.js"
 
-const rsc = new RPCSyncClient()
-rsc.commitSync({}).then()
 const devices = document.createElement('div')
 devices.id = 'mapl-devices'
 document.body.appendChild(devices)
@@ -26,7 +21,6 @@ setTimeout(() => {
 
 Vue.use(Vuex)
 Vue.use(AsyncComputed)
-//TODO: 实现Vuex广播同步机制
 const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
     state: {
