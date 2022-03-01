@@ -9,10 +9,8 @@ browser.runtime.onConnect.addListener((p) => {
                 })
             }
         })
-    }else if(p.name == 'RPCSync') {
-        p.onMessage.addListener(function (req) {
-            console.log('收到子节点RPCSync请求', req)
-        })
+    } else {
+        p.postMessage()
     }
 })
 async function get_self_info({
