@@ -25,12 +25,12 @@
         <table class="mapl-liuliang-table">
           <tr>
             <th>名称</th>
-            <th>购买日期</th>
+            <th>过期日期</th>
             <th>统计</th>
           </tr>
           <tr v-for="(item, index) of liuliang" :key="index">
             <td>{{item.name}}</td>
-            <td>{{item.purchase_date}}</td>
+            <td>{{item.expiration_date}}</td>
             <!-- TODO:流量展示组件 -->
             <td>
               <liuliang-display :remain="item.remain" :percentage="item.percentage"></liuliang-display>
