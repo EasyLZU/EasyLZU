@@ -13,6 +13,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
     "core-js": "^3.6.5",
+    "fastest-levenshtein": "^1.0.12",
     "vue": "^2.6.11",
     "vue-async-computed": "^3.8.2",
     "vuex": "^3.5.1",
