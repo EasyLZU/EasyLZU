@@ -1,3 +1,4 @@
+const browser = require("webextension-polyfill/dist/browser-polyfill")
 const { distance } = require('fastest-levenshtein')
 
 browser.omnibox.setDefaultSuggestion({
