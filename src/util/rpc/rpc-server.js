@@ -16,9 +16,11 @@ browser.runtime.onConnect.addListener((p) => {
     }
 })
 async function get_self_info({
+    hostname,
     username
 }) {
-    const response = await fetch('http://10.10.0.166:8800/site/sso?data=' + btoa(`${username}:${username}`))
+    if (!["10.10.0.166", "login.lzu.edu.cn"].includes(hostname)) return null
+    const response = await fetch(`http://${hostname}:8800/site/sso?data=` + btoa(`${username}:${username}`))
     const body = await response.text()
     return parse_self_info(body)
 }

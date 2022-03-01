@@ -1,7 +1,8 @@
 const browser = require("webextension-polyfill/dist/browser-polyfill")
+const hostname = document.location.hostname
 
 export async function get_user_info() {
-    const response = await fetch('http://10.10.0.166/cgi-bin/rad_user_info?callback=' + get_callback_name())
+    const response = await fetch(`http://${hostname}/cgi-bin/rad_user_info?callback=` + get_callback_name())
     const jsonp = await response.text()
     const data = JSON.parse(jsonp.replace(/(?:^.*\()|(?:\).*$)/g, ''))
     return {
@@ -13,6 +14,7 @@ export async function get_user_info() {
 }
 export async function get_self_info(username) {
     return await rpc_client('get_self_info', {
+        hostname,
         username
     })
 }
