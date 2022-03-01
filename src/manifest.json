@@ -17,6 +17,13 @@
         "http://login.lzu.edu.cn/srun_portal_success*"
       ],
       "js": ["success_addon.js"]
+    },
+    {
+      "matches": [
+        "http://10.10.0.166/srun_portal_pc*",
+        "http://login.lzu.edu.cn/srun_portal_pc*"
+      ],
+      "js": ["acid_switcher.js"]
     }
 ],
   "background": {
@@ -24,7 +31,8 @@
   },
   "permissions": [
     "http://10.10.0.166/*",
-    "http://login.lzu.edu.cn/*"
+    "http://login.lzu.edu.cn/*",
+    "notifications"
   ],
   "omnibox": {
     "keyword": "兰州大学"

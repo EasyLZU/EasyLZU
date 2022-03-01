@@ -14,7 +14,8 @@ module.exports = [{
     },
     entry: {
         background: "./src/background/index.js",
-        success_addon: "./src/success_addon/index.js"
+        success_addon: "./src/success_addon/index.js",
+        acid_switcher: "./src/acid_switcher/index.js"
     },
     output: {
         filename: '[name].js',
@@ -106,7 +107,8 @@ module.exports = [{
         new CopyWebpackPlugin({
             patterns: [
                 { from: 'src/manifest.json' },
-                { from: 'src/ICSGenerator.js' }
+                { from: 'src/ICSGenerator.js' },
+                { from: 'src/ACIDPayLoad.js' }
             ]
         }),
         new VueLoaderPlugin(),
