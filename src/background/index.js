@@ -1,16 +1,16 @@
-import "Util/rpc/rpc-server.js"
-import "Util/omnibox/index.js"
+import "util/rpc/rpc-server.js"
+import "util/omnibox/index.js"
 
 import devtools from "@vue/devtools"
 
 import Vue from "vue"
 import Vuex from "vuex"
-import StoreSync from "Util/store/store-sync.js"
-import settings from "Util/store/vuex-module/settings.js"
+import StoreSync from "util/store/store-sync.js"
+import settings from "util/store/vuex-module/settings.js"
 
 import {
     RPCSyncServer
-} from "Util/rpc/rpc-base.js"
+} from "util/rpc/rpc-base.js"
 const syncstore = {
     namespaced: true,
     state: () => {

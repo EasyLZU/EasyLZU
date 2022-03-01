@@ -5,10 +5,10 @@ import AsyncComputed from 'vue-async-computed'
 import Devices from "./devices.vue"
 import Liuliang from "./liuliang.vue"
 
-import { get_user_info, get_self_info } from "Util/rpc/rpc-client.js"
+import { get_user_info, get_self_info } from "util/rpc/rpc-client.js"
 import {
   RPCSyncClient
-} from "Util/rpc/rpc-base.js"
+} from "util/rpc/rpc-base.js"
 
 const rsc = new RPCSyncClient()
 rsc.commitSync({}).then()
