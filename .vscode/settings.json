@@ -1,0 +1,7 @@
+{
+    "files.exclude": {
+        "src/**/dist": true,
+        "dist": false,
+        "node_modules": true
+    }
+}
