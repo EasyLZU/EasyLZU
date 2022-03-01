@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "EasyLZU(Alpha)",
+  "name": "EasyLZU",
   "version": "0.1.2",
-  "author": "MaPl",
-  "description": "适用于兰州大学校园网的功能增强扩展(Alpha)",
-  "homepage_url": "https://easylzu.york.moe/",
+  "author": "EasyLZU",
+  "description": "适用于兰州大学校园网的功能增强扩展",
+  "homepage_url": "https://github.com/EasyLZU/EasyLZU",
   "content_scripts": [{
     "matches": ["http://10.10.0.166/srun_portal_success*"],
     "js": [
