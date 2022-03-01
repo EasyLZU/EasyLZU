@@ -14,7 +14,13 @@ const urls = [
     {"name": "开源社区", "url": "http://oss.lzu.edu.cn"},
     {"name": "镜像站", "url": "http://mirrors.lzu.edu.cn"},
     {"name": "教务处", "url": "http://jwc.lzu.edu.cn"},
-    {"name": "教务系统", "url": "http://jwk.lzu.edu.cn"}
+    {"name": "教务系统", "url": "http://jwk.lzu.edu.cn"},
+    {"name": "共青团委", "url": "http://tuanwei.lzu.edu.cn"},
+    {"name": "智慧学工", "url": "http://zhxg.lzu.edu.cn"},
+    {"name": "学生工作部", "url": "http://xgb.lzu.edu.cn"},
+    {"name": "后勤保障部", "url": "http://hq.lzu.edu.cn"},
+    {"name": "校医院", "url": "http://ldxyy.lzu.edu.cn"},
+    {"name": "采购管理办公室", "url": "http://zbb.lzu.edu.cn"}
 ]
 
 browser.omnibox.onInputChanged.addListener((text, suggest) => {
