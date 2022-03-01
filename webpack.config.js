@@ -104,9 +104,10 @@ module.exports = [{
     plugins: [
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
-            patterns: [{
-                from: 'src/manifest.json'
-            }]
+            patterns: [
+                { from: 'src/manifest.json' },
+                { from: 'src/ICSGenerator.js' }
+            ]
         }),
         new VueLoaderPlugin(),
     ]
