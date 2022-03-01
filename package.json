@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "build": "webpack && web-ext build --source-dir ./dist/ --artifacts-dir ./release --overwrite-dest",
-    "test": "webpack && web-ext run --source-dir ./dist/"
+    "test": "webpack && web-ext run --source-dir ./dist/",
+    "debug": "start /b webpack --watch && web-ext run --source-dir ./dist/ --verbose"
   },
   "author": "MaPl",
   "license": "GPL-3.0-or-later",
