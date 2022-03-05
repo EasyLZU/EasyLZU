@@ -9,7 +9,7 @@
       <div class="mapl-device-o-shower">{{realNote}}</div>
       <div class="mapl-device-o-shower" v-if="!isInputing && mac != deviceMac">
         <div class="mapl-device-o-inliner" @click="onRInput()">设置备注</div>|
-        <div class="mapl-device-o-inliner">下线</div>
+        <div class="mapl-device-o-inliner" @click="dis()">下线</div>
       </div>
       <div class="mapl-device-o-shower" v-else-if="!isInputing && mac == deviceMac" @click="onRInput()">
         设置备注
@@ -31,6 +31,7 @@
 
 <script>
 import _ from 'lodash'
+import { dis_mac } from 'util/rpc/rpc-client.js'
 export default {
   data() {
     return {
@@ -42,14 +43,10 @@ export default {
   },
   methods: {
     dis() {
-      `layer.confirm(
-        "确认下线吗?",
-        { icon: 3, title: "下线确认", shadeClose: true },
-        (index) => {
-          layer.msg("设备已下线", { icon: 1, time: 400 })
-          layer.close(index)
-        }
-      )`
+      dis_mac(this.uid, this.mac, this.csrf_token).then(() => {
+        location.reload()
+      })
+
     },
     onRInput() {
       this.noteText = this.$store.state.mac_info[this.mac] || ''
@@ -70,6 +67,8 @@ export default {
   },
   props: {
     mac: String,
+    uid: String,
+    csrf_token: String
   },
   computed: {
     deviceMac() {
@@ -117,6 +116,7 @@ export default {
   width: 50%;
 }
 .mapl-device-o-inliner {
+  cursor: pointer;
   display: inline-block;
   padding: 0 2px;
 }

@@ -36,7 +36,7 @@
             <td>{{ item.mac }}</td>
             <!-- TODO:下线按钮组件 -->
             <td>
-              <devices-option :mac="item.mac"></devices-option>
+              <devices-option :mac="item.mac" :uid="item.id" :csrf_token="homeCsrfToken"></devices-option>
             </td>
           </tr>
         </table>
@@ -73,6 +73,9 @@ export default {
         return []
       }
     },
+    homeCsrfToken() {
+      return this.$store.state.self_info["csrf_token"]
+    }
   },
   asyncComputed: {},
   methods: {

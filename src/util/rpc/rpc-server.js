@@ -15,6 +15,10 @@ browser.runtime.onConnect.addListener((p) => {
                 update_mac_info(req.msg).then((data) => {
                     p.postMessage(data)
                 })
+            } else if (req['command'] == 'dis_mac') {
+                dis_mac(req.msg).then((data) => {
+                    p.postMessage(data)
+                })
             }
         })
     } else {
@@ -41,6 +45,7 @@ async function get_mac_info({
 async function update_mac_info({
     hostname, mac, note, csrf_token
 }) {
+    if (!["10.10.0.166", "login.lzu.edu.cn"].includes(hostname)) return null
     await fetch(`http://${hostname}:8800/user/mac-auth`, {
         "credentials": "include",
         "headers": {
@@ -48,7 +53,7 @@ async function update_mac_info({
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
             "X-Requested-With": "XMLHttpRequest"
         },
-        "referrer": "http://10.10.0.166:8800/user/mac-auth",
+        "referrer": `http://${hostname}:8800/user/mac-auth`,
         "body": (new URLSearchParams({
             _csrf: csrf_token,
             hasEditable: 1,
@@ -62,9 +67,32 @@ async function update_mac_info({
         "mode": "cors"
     })
 }
+async function dis_mac({
+    hostname, id, mac, csrf_token
+}) {
+    if (!["10.10.0.166", "login.lzu.edu.cn"].includes(hostname)) return null
+    const query = new URLSearchParams({
+        id, mac
+    })
+    await fetch(`http://${hostname}:8800/home/delete?` + query.toString(), {
+        "credentials": "include",
+        "headers": {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "referrer": `http://${hostname}:8800/home`,
+        "body": (new URLSearchParams({
+            _csrf: csrf_token
+        })).toString(),
+        "method": "POST",
+        "mode": "cors"
+    })
+}
 
 function parse_self_info(str) {
-    const regxs1 = '<td data-col-seq="1">([^<]+)</td><td data-col-seq="2">([^<]+)</td>' +
+    const regxs0 = '<meta name="csrf-token" content="([^"]+)">'
+    const regx0 = new RegExp(regxs0, 'g')
+    const regxs1 = '<tr data-key="([^"]+)"><td data-col-seq="0">([^<]+)</td>'+
+        '<td data-col-seq="1">([^<]+)</td><td data-col-seq="2">([^<]+)</td>' +
         '<td data-col-seq="5">([^<]+)</td><td class="[^"]+" style="[^"]+" data-col-seq="7">' +
         '<a class="[^"]+" href="[^;]+;user_mac=((?:[a-zA-Z0-9]{2}(?:%3A)?){6})" title="下线"'
     const regx1 = new RegExp(regxs1, 'g')
@@ -80,12 +108,15 @@ function parse_self_info(str) {
         '<button(?:[^>]+)>([^<]+)</button></td></tr>' // 百分比
     const regx2 = new RegExp(regxs2, 'g')
     return {
+        csrf_token: [...str.matchAll(regx0)][0][1],
         device: [...str.matchAll(regx1)].map((e) => {
             return {
-                ip: e[1],
-                date: e[2],
-                area: e[3],
-                mac: e[4].replace(/%3A/g, ':')
+                id: e[1],
+                user_name: e[2],
+                ip: e[3],
+                date: e[4],
+                area: e[5],
+                mac: e[6].replace(/%3A/g, ':')
             }
         }),
         liuliang: [...str.matchAll(regx2)].map((e) => {

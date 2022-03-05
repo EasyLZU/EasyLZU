@@ -28,6 +28,11 @@ export async function update_mac_info(mac, note, csrf_token) {
         hostname, mac, note, csrf_token
     })
 }
+export async function dis_mac(id, mac, csrf_token) {
+    return await rpc_client('dis_mac', {
+        hostname, id, mac, csrf_token
+    })
+}
 
 function rpc_client(command, msg) {
     return new Promise((resolve, reject) => {
