@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   data() {
     return {
@@ -55,11 +56,17 @@ export default {
       this.isInputing = true
     },
     onFInput() {
-      if(this.noteText.length) {
-        this.$store.commit('mac_info_update', {mac:this.mac, note:this.noteText})
-      }
       this.isInputing = false
+      if(this.noteText.length) {
+        this.updateNote()
+      }
+    },
+    updateNote() {
+      this.$store.commit('mac_info_update', {mac:this.mac, note:this.noteText})
     }
+  },
+  created() {
+    this.updateNote = _.debounce(this.updateNote, 500)
   },
   props: {
     mac: String,

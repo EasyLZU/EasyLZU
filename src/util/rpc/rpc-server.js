@@ -11,6 +11,10 @@ browser.runtime.onConnect.addListener((p) => {
                 get_mac_info(req.msg).then((data) => {
                     p.postMessage(data)
                 })
+            } else if (req['command'] == 'update_mac_info') {
+                update_mac_info(req.msg).then((data) => {
+                    p.postMessage(data)
+                })
             }
         })
     } else {
@@ -33,6 +37,30 @@ async function get_mac_info({
     const response = await fetch(`http://${hostname}:8800/user/mac-auth`, {credentials : "include"})
     const body = await response.text()
     return parse_mac_info(body)
+}
+async function update_mac_info({
+    hostname, mac, note, csrf_token
+}) {
+    await fetch(`http://${hostname}:8800/user/mac-auth`, {
+        "credentials": "include",
+        "headers": {
+            "X-CSRF-Token": csrf_token,
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        "referrer": "http://10.10.0.166:8800/user/mac-auth",
+        "body": (new URLSearchParams({
+            _csrf: csrf_token,
+            hasEditable: 1,
+            editableIndex: "2",
+            editableKey: "2",
+            editableAttribute: "remark",
+            mac: mac,
+            remark: note
+        })).toString(),
+        "method": "POST",
+        "mode": "cors"
+    })
 }
 
 function parse_self_info(str) {

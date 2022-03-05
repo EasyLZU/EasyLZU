@@ -5,7 +5,7 @@ import AsyncComputed from 'vue-async-computed'
 import Devices from "./devices.vue"
 import Liuliang from "./liuliang.vue"
 
-import { get_user_info, get_self_info, get_mac_info } from "util/rpc/rpc-client.js"
+import { get_user_info, get_self_info, get_mac_info, update_mac_info } from "util/rpc/rpc-client.js"
 
 const devices = document.createElement('div')
 devices.id = 'mapl-devices'
@@ -21,6 +21,7 @@ setTimeout(() => {
 
 Vue.use(Vuex)
 Vue.use(AsyncComputed)
+let mac_csrf_token = null
 const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
     state: {
@@ -41,6 +42,7 @@ const store = new Vuex.Store({
       },
       mac_info_update(state, {mac, note}) {
         Vue.set(state.mac_info, mac, note)
+        if (mac_csrf_token) update_mac_info(mac, note, mac_csrf_token).then()
       }
     },
     actions: {
@@ -54,8 +56,8 @@ const store = new Vuex.Store({
       },
       async init_mac_info({commit}) {
         const mac_info = await get_mac_info()
+        mac_csrf_token = mac_info['csrf_token']
         for (const info of mac_info['mac_info']) {
-          console.log(info)
           commit('mac_info_update', info)
         }
       }
