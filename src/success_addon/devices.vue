@@ -6,6 +6,9 @@
   >
     <div class="header">
       <h3>在线设备</h3>
+      <div class="lang mapl-devices-lang">
+        <span @click="openMac()">无感知认证管理</span>
+      </div>
     </div>
     <transition name="mapl-loadinfo-trans">
       <div
@@ -72,7 +75,11 @@ export default {
     },
   },
   asyncComputed: {},
-  methods: {},
+  methods: {
+    openMac() {
+      window.open(`http://${document.location.hostname}:8800/user/mac-auth`, "_blank")
+    }
+  },
   created: function () {
     setTimeout(() => {
       this.isActive = true
@@ -92,6 +99,11 @@ export default {
 </script>
 
 <style lang="scss">
+.mapl-devices-lang {
+  border: 1px solid #fff;
+  border-radius: 10px;
+  padding: 4px 8px;
+}
 .mapl-devices-table {
   text-align: center;
   width: 100%;
