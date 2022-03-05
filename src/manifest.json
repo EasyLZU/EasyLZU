@@ -41,5 +41,8 @@
     "gecko": {
       "id": "mapl-dev@york.moe"
     }
-  }
+  },
+  "web_accessible_resources":[
+    "ACIDPayLoad.js"
+  ]
 }
