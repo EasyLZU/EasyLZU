@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "EasyLZU",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "author": "EasyLZU",
   "description": "适用于兰州大学校园网的功能增强扩展",
   "homepage_url": "https://github.com/EasyLZU/EasyLZU",
@@ -39,8 +39,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "mapl@york.moe",
-      "update_url": "https://easylzu.york.moe/file/firefox-update-manifest.json"
+      "id": "mapl-dev@york.moe"
     }
   }
 }

@@ -51,12 +51,12 @@ export default {
       )`
     },
     onRInput() {
-      this.noteText = this.$store.state.setting.successAddon.userDeviceNote[this.mac] || ''
+      this.noteText = this.$store.state.mac_info[this.mac] || ''
       this.isInputing = true
     },
     onFInput() {
       if(this.noteText.length) {
-        this.$store.commit('set_successAddon_userDeviceNote', {mac:this.mac, note:this.noteText})
+        this.$store.commit('mac_info_update', {mac:this.mac, note:this.noteText})
       }
       this.isInputing = false
     }
@@ -69,9 +69,7 @@ export default {
       return this.$store.state.user_info.user_mac
     },
     realNote() {
-      console.log('updated')
-      const userNote = this.$store.state.setting.successAddon.userDeviceNote[this.mac]
-      console.log(this.$store.state.setting.successAddon.userDeviceNote, userNote)
+      const userNote = this.$store.state.mac_info[this.mac]
       if(this.deviceMac == this.mac) {
         if(userNote) {
           return `${userNote}(本机)`

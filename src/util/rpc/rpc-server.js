@@ -7,6 +7,10 @@ browser.runtime.onConnect.addListener((p) => {
                 get_self_info(req.msg).then((data) => {
                     p.postMessage(data)
                 })
+            } else if (req['command'] == 'get_mac_info') {
+                get_mac_info(req.msg).then((data) => {
+                    p.postMessage(data)
+                })
             }
         })
     } else {
@@ -21,6 +25,14 @@ async function get_self_info({
     const response = await fetch(`http://${hostname}:8800/site/sso?data=` + btoa(`${username}:${username}`))
     const body = await response.text()
     return parse_self_info(body)
+}
+async function get_mac_info({
+    hostname
+}) {
+    if (!["10.10.0.166", "login.lzu.edu.cn"].includes(hostname)) return null
+    const response = await fetch(`http://${hostname}:8800/user/mac-auth`, {credentials : "include"})
+    const body = await response.text()
+    return parse_mac_info(body)
 }
 
 function parse_self_info(str) {
@@ -39,7 +51,6 @@ function parse_self_info(str) {
         '<button(?:[^>]+)>可用流量：([^<]+)</button>' + // 可用流量
         '<button(?:[^>]+)>([^<]+)</button></td></tr>' // 百分比
     const regx2 = new RegExp(regxs2, 'g')
-    console.log(str.matchAll(regx2))
     return {
         device: [...str.matchAll(regx1)].map((e) => {
             return {
@@ -63,5 +74,19 @@ function parse_self_info(str) {
             parm: '',
             token: ''
         }
+    }
+}
+
+function parse_mac_info(str) {
+    const regxs1 = '<meta name="csrf-token" content="([^"]+)">'
+    const regx1 = new RegExp(regxs1, 'g')
+    const regxs2 = '<td data-col-seq="1">([^<]+)</td><td data-col-seq="2"><div(?:[^>]+)><button(?:[^>]+)>(?:<em>)?([^<]+)(?:</em>)?</button>'
+    const regx2 = new RegExp(regxs2, 'g')
+    return {
+        "csrf_token": [...str.matchAll(regx1)][0][1],
+        "mac_info": [...str.matchAll(regx2)].map((e) => ({
+            "mac": e[1],
+            "note": e[2]
+        })).filter(e => e.note != "(未设置)")
     }
 }

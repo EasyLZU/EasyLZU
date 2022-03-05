@@ -18,6 +18,11 @@ export async function get_self_info(username) {
         username
     })
 }
+export async function get_mac_info() {
+    return await rpc_client('get_mac_info', {
+        hostname
+    })
+}
 
 function rpc_client(command, msg) {
     return new Promise((resolve, reject) => {

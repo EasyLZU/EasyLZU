@@ -5,7 +5,7 @@ import AsyncComputed from 'vue-async-computed'
 import Devices from "./devices.vue"
 import Liuliang from "./liuliang.vue"
 
-import { get_user_info, get_self_info } from "util/rpc/rpc-client.js"
+import { get_user_info, get_self_info, get_mac_info } from "util/rpc/rpc-client.js"
 
 const devices = document.createElement('div')
 devices.id = 'mapl-devices'
@@ -28,11 +28,7 @@ const store = new Vuex.Store({
       isSelfInfoInited: false,
       user_info: {},
       self_info: {},
-      setting: {
-        successAddon: {
-          userDeviceNote : {}
-        }
-      }
+      mac_info: {}
     },
     mutations: {
       user_info_update(state, user_info) {
@@ -43,8 +39,8 @@ const store = new Vuex.Store({
         state.self_info = self_info
         state.isSelfInfoInited = true
       },
-      set_successAddon_userDeviceNote(state, {mac, note}) {
-        Vue.set(state.setting.successAddon.userDeviceNote, mac, note)
+      mac_info_update(state, {mac, note}) {
+        Vue.set(state.mac_info, mac, note)
       }
     },
     actions: {
@@ -54,13 +50,21 @@ const store = new Vuex.Store({
       },
       async get_self_info({commit, state}) {
         const self_info = await get_self_info(state.user_info.user_name)
-        console.log('test', self_info)
         commit('self_info_update', self_info)
+      },
+      async init_mac_info({commit}) {
+        const mac_info = await get_mac_info()
+        for (const info of mac_info['mac_info']) {
+          console.log(info)
+          commit('mac_info_update', info)
+        }
       }
     }
   })
-store.dispatch('get_user_info').then(()=>{
-  store.dispatch('get_self_info')
+store.dispatch('get_user_info').then(() => {
+  store.dispatch('get_self_info').then(() => {
+    store.dispatch('init_mac_info')
+  })
 })
 new Vue({
     render: h => h(Devices),
